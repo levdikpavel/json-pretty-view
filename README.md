@@ -14,6 +14,10 @@ View minified or single-line JSON as formatted, foldable text — right in the t
 - **Escaped strings on hover.** Hover a string value in the pretty view to see it decoded: multi-line text such as stack traces with real line breaks, and JSON serialized into a string formatted as JSON.
 - **Fresh content.** The file is re-read when you switch back to the tab, or on demand with the refresh button.
 
+### JSON Lines and logs
+
+![JSON Lines demo](demo/demo-lines.gif)
+
 ## Usage
 
 1. Open a JSON, JSON Lines or log file.

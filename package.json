@@ -3,7 +3,7 @@
   "displayName": "JSON Pretty View",
   "description": "Read-only pretty view of minified JSON and JSON Lines logs in the same tab, for any file system: local, remote, containers",
   "publisher": "levdikpavel",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "license": "MIT",
   "icon": "images/icon.png",
   "repository": {
