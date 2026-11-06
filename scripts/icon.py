@@ -10,7 +10,8 @@ BG = (30, 41, 59)
 BRACE = (251, 191, 36)
 KEY = (56, 189, 248)
 VALUE = (226, 232, 240)
-CHEVRON = (148, 163, 184)
+CHEVRON = (248, 250, 252)
+GUIDE = (71, 85, 105)
 
 
 def bezier(p0, p1, p2, n=24):
@@ -73,14 +74,15 @@ def shapes():
     return [
         Stroke(brace, 3.8, BRACE),
         Stroke([(128 - x, y) for x, y in brace], 3.8, BRACE),
-        bar(46, 57, 40, KEY),
-        bar(64, 84, 40, VALUE),
-        Stroke([(45.5, 53.5), (49.5, 58), (53.5, 53.5)], 2.1, CHEVRON),
-        bar(59, 73, 56, KEY),
-        bar(59, 67, 72, KEY),
-        bar(74, 86, 72, VALUE),
-        bar(46, 55, 88, KEY),
-        bar(62, 80, 88, VALUE),
+        Stroke([(45, 38), (51, 44.5), (57, 38)], 3, CHEVRON),
+        bar(64, 83, 41.5, KEY),
+        Stroke([(51, 53), (51, 94)], 1.3, GUIDE),
+        bar(62, 69, 58, KEY),
+        bar(76, 86, 58, VALUE),
+        bar(62, 66, 74, KEY),
+        bar(73, 86, 74, VALUE),
+        bar(62, 71, 90, KEY),
+        bar(78, 86, 90, VALUE),
     ]
 
 
