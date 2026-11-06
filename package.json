@@ -1,0 +1,73 @@
+{
+  "name": "json-pretty-view",
+  "displayName": "JSON Pretty View",
+  "description": "Read-only pretty view of minified JSON in the same tab, for any file system: local, remote, containers",
+  "publisher": "levdikpavel",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/levdikpavel/json-pretty-view.git"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "json",
+    "pretty",
+    "viewer",
+    "minified",
+    "read-only",
+    "containers"
+  ],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "main": "./extension.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "activationEvents": [
+    "onFileSystem:jsonpretty"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "jsonPretty.toggle",
+        "title": "Toggle Pretty View",
+        "category": "JSON",
+        "icon": "$(list-tree)"
+      },
+      {
+        "command": "jsonPretty.refresh",
+        "title": "Refresh Pretty View",
+        "category": "JSON",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "jsonPretty.toggle",
+          "when": "resourceLangId == json || resourceScheme == jsonpretty",
+          "group": "navigation"
+        },
+        {
+          "command": "jsonPretty.refresh",
+          "when": "resourceScheme == jsonpretty",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "jsonPretty.toggle",
+          "when": "resourceLangId == json || resourceScheme == jsonpretty"
+        },
+        {
+          "command": "jsonPretty.refresh",
+          "when": "resourceScheme == jsonpretty"
+        }
+      ]
+    }
+  }
+}
