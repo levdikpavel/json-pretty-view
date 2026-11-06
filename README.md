@@ -11,6 +11,7 @@ View minified or single-line JSON as formatted, foldable text — right in the t
 - **Any file system.** Works for files opened through any provider: local disk, Remote SSH, Dev Containers, the Container Tools explorer (`containers:`), and other virtual file systems.
 - **Exact values.** Only whitespace is changed. Numbers keep their original text (no rounding of 64-bit integers like `18446744073709551615`), and key order and duplicate keys are preserved.
 - **JSON Lines and logs.** In `.jsonl`, `.ndjson` and `.log` files with one JSON object per line, every record opens collapsed and reads like the original line; expanding it shows only the formatted JSON. Lines that are not JSON are shown as is.
+- **Escaped strings on hover.** Hover a string value in the pretty view to see it decoded: multi-line text such as stack traces with real line breaks, and JSON serialized into a string formatted as JSON.
 - **Fresh content.** The file is re-read when you switch back to the tab, or on demand with the refresh button.
 
 ## Usage

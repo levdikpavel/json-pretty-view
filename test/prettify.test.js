@@ -6,7 +6,7 @@ const load = Module._load;
 Module._load = function (request, ...rest) {
   return request === 'vscode' ? {} : load.call(this, request, ...rest);
 };
-const { prettify, render } = require('../extension.js');
+const { prettify, render, stringAt, stringHover } = require('../extension.js');
 
 test('formats nested structures and keeps empty containers inline', () => {
   assert.strictEqual(
@@ -58,6 +58,27 @@ test('renders JSON lines as foldable pretty records with the rest of the origina
     { start: 0, rest: '"a":1,"b":{"c":2}}' },
     { start: 7, rest: '1]' },
   ]);
+});
+
+test('finds the string token under the cursor, honouring escaped quotes', () => {
+  const line = '  "msg": "say \\"hi\\"", "n": 1';
+  assert.deepStrictEqual(stringAt(line, 12), { start: 9, end: 21, raw: '"say \\"hi\\""' });
+  assert.deepStrictEqual(stringAt(line, 3), { start: 2, end: 7, raw: '"msg"' });
+  assert.strictEqual(stringAt(line, 28), null);
+});
+
+test('hover shows escaped text decoded and nested JSON formatted', () => {
+  assert.strictEqual(stringHover('"a\\n\\tb"'), '```text\na\n\tb\n```');
+  assert.strictEqual(
+    stringHover('"{\\"id\\":9007199254740993}"'),
+    '```json\n{\n  "id": 9007199254740993\n}\n```',
+  );
+  assert.strictEqual(stringHover('"x ```\\ny"'), '````text\nx ```\ny\n````');
+});
+
+test('hover is skipped when decoding changes nothing', () => {
+  assert.strictEqual(stringHover('"plain"'), null);
+  assert.strictEqual(stringHover('"unterminated'), null);
 });
 
 test('rejects text without any JSON', () => {

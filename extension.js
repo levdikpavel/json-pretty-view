@@ -115,6 +115,32 @@ function render(text) {
   }
 }
 
+function stringAt(line, character) {
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] !== '"') continue;
+    let j = i + 1;
+    while (j < line.length && line[j] !== '"') j += line[j] === '\\' ? 2 : 1;
+    if (character >= i && character <= j) return { start: i, end: j + 1, raw: line.slice(i, j + 1) };
+    i = j;
+  }
+  return null;
+}
+
+function stringHover(raw) {
+  let value;
+  try {
+    value = JSON.parse(raw);
+  } catch {
+    return null;
+  }
+  if (typeof value !== 'string') return null;
+  const nested = prettyLines(value.trim());
+  if (!nested && value === raw.slice(1, -1)) return null;
+  const [language, body] = nested ? ['json', nested.join('\n')] : ['text', value];
+  const fence = '`'.repeat(Math.max(3, ...Array.from(body.matchAll(/`+/g), (m) => m[0].length + 1)));
+  return `${fence}${language}\n${body}\n${fence}`;
+}
+
 function firstRecordFrom(records, line) {
   let lo = 0;
   let hi = records.length;
@@ -146,6 +172,17 @@ function activate(context) {
     provideFoldingRanges(document) {
       const view = views.get(document.uri.toString());
       return view ? view.ranges.map(([start, end]) => new vscode.FoldingRange(start, end)) : [];
+    },
+  };
+  const hover = {
+    provideHover(document, position) {
+      const token = stringAt(document.lineAt(position.line).text, position.character);
+      const markdown = token && stringHover(token.raw);
+      if (!markdown) return null;
+      return new vscode.Hover(
+        new vscode.MarkdownString(markdown),
+        new vscode.Range(position.line, token.start, position.line, token.end),
+      );
     },
   };
   const collapsedLine = vscode.window.createTextEditorDecorationType({});
@@ -207,6 +244,7 @@ function activate(context) {
     collapsedLine,
     vscode.workspace.registerTextDocumentContentProvider(SCHEME, provider),
     vscode.languages.registerFoldingRangeProvider({ scheme: SCHEME }, folding),
+    vscode.languages.registerHoverProvider({ scheme: SCHEME }, hover),
     vscode.commands.registerCommand('jsonPretty.toggle', toggle),
     vscode.commands.registerCommand('jsonPretty.refresh', refresh),
     vscode.window.onDidChangeActiveTextEditor((editor) => {
@@ -220,4 +258,4 @@ function activate(context) {
   );
 }
 
-module.exports = { activate, prettify, render };
+module.exports = { activate, prettify, render, stringAt, stringHover };
