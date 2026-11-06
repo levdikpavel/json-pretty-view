@@ -2,6 +2,8 @@
 
 View minified or single-line JSON as formatted, foldable text — right in the tab where the file is open, without changing the file.
 
+![Demo](demo/demo.gif)
+
 ## Features
 
 - **Same tab.** One click in the editor title bar swaps the raw file for a read-only pretty view; another click swaps it back.
