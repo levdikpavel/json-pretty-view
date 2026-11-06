@@ -2,3 +2,4 @@
 test/**
 .gitignore
 *.vsix
+scripts/**
