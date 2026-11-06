@@ -1,0 +1,14 @@
+checkout-api 2.4.1 starting, pid 4182
+{"ts":"2026-11-06T10:00:00.103Z","level":"INFO","logger":"server","msg":"listening","addr":"0.0.0.0:8080","tls":false,"workers":8}
+{"ts":"2026-11-06T10:00:01.417Z","level":"INFO","logger":"http","msg":"request processed","request_id":"7f3a9c21","http":{"method":"GET","path":"/api/v1/products","query":{"category":"keyboards","page":1},"status":200,"duration_ms":12.40},"cache":{"hit":true,"key":"products:keyboards:p1"}}
+{"ts":"2026-11-06T10:00:02.006Z","level":"INFO","logger":"http","msg":"request processed","request_id":"7f3a9c22","http":{"method":"POST","path":"/api/v1/cart/items","status":201,"duration_ms":31.07},"user":{"id":"u-1042","plan":"pro"},"body":{"sku":"KB-87-RGB","qty":1}}
+{"ts":"2026-11-06T10:00:02.851Z","level":"WARN","logger":"db","msg":"slow query","request_id":"7f3a9c23","duration_ms":842.7,"query":{"table":"orders","op":"select","filter":{"customer_id":"c-1042","status":["paid","shipped"]},"limit":50},"rows":1250}
+{"ts":"2026-11-06T10:00:03.290Z","level":"INFO","logger":"orders","msg":"order created","request_id":"7f3a9c24","order":{"id":9007199254740993,"items":3,"total":{"amount":258.87,"currency":"EUR"}},"trace":{"trace_id":"4bf92f3577b34da6a3ce929d0e0e4736","span_id":"00f067aa0ba902b7"}}
+{"ts":"2026-11-06T10:00:03.712Z","level":"ERROR","logger":"payments","msg":"payment declined","request_id":"7f3a9c24","order_id":9007199254740993,"provider":"acme-pay","error":{"type":"CardDeclined","code":"insufficient_funds","retryable":false,"stack":["at charge (payments/client.go:118)","at (*Service).Pay (payments/service.go:64)","at handleCheckout (api/checkout.go:201)"]}}
+{"ts":"2026-11-06T10:00:04.020Z","level":"INFO","logger":"http","msg":"request processed","request_id":"7f3a9c25","http":{"method":"GET","path":"/api/v1/orders/9007199254740993","status":200,"duration_ms":4.90},"user":{"id":"u-1042","plan":"pro"}}
+{"ts":"2026-11-06T10:00:05.000Z","level":"DEBUG","logger":"cache","msg":"evicted","keys":["products:keyboards:p1","products:mice:p1"],"reason":"ttl","ttl_s":300}
+--- SIGHUP received, reloading config ---
+{"ts":"2026-11-06T10:00:06.334Z","level":"INFO","logger":"config","msg":"config reloaded","changes":{"rate_limit":{"from":100,"to":200},"features":{"new_checkout":true,"legacy_cart":false}}}
+{"ts":"2026-11-06T10:00:07.581Z","level":"WARN","logger":"ratelimit","msg":"rate limit exceeded","request_id":"7f3a9c26","http":{"method":"POST","path":"/api/v1/orders","status":429},"client":{"ip":"203.0.113.7","user_agent":"curl/8.5.0"},"limit":{"rpm":200,"window_s":60}}
+{"ts":"2026-11-06T10:00:08.140Z","level":"INFO","logger":"http","msg":"request processed","request_id":"7f3a9c27","http":{"method":"DELETE","path":"/api/v1/cart/items/KB-87-RGB","status":204,"duration_ms":8.15},"user":{"id":"u-1042","plan":"pro"}}
+{"ts":"2026-11-06T10:00:09.902Z","level":"INFO","logger":"server","msg":"shutting down","signal":"SIGTERM","inflight":2,"drain_timeout_s":30}

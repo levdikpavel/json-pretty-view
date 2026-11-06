@@ -1,9 +1,9 @@
 {
   "name": "json-pretty-view",
   "displayName": "JSON Pretty View",
-  "description": "Read-only pretty view of minified JSON in the same tab, for any file system: local, remote, containers",
+  "description": "Read-only pretty view of minified JSON and JSON Lines logs in the same tab, for any file system: local, remote, containers",
   "publisher": "levdikpavel",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "license": "MIT",
   "icon": "images/icon.png",
   "repository": {
@@ -15,6 +15,9 @@
   ],
   "keywords": [
     "json",
+    "jsonl",
+    "ndjson",
+    "log",
     "pretty",
     "viewer",
     "minified",
@@ -50,7 +53,7 @@
       "editor/title": [
         {
           "command": "jsonPretty.toggle",
-          "when": "resourceLangId == json || resourceScheme == jsonpretty",
+          "when": "resourceLangId == json || resourceLangId == jsonl || resourceLangId == log || resourceScheme == jsonpretty",
           "group": "navigation"
         },
         {
@@ -62,7 +65,7 @@
       "commandPalette": [
         {
           "command": "jsonPretty.toggle",
-          "when": "resourceLangId == json || resourceScheme == jsonpretty"
+          "when": "resourceLangId == json || resourceLangId == jsonl || resourceLangId == log || resourceScheme == jsonpretty"
         },
         {
           "command": "jsonPretty.refresh",

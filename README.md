@@ -10,13 +10,14 @@ View minified or single-line JSON as formatted, foldable text — right in the t
 - **Native editor.** The view is a regular read-only text editor, so folding, syntax highlighting and search work as usual.
 - **Any file system.** Works for files opened through any provider: local disk, Remote SSH, Dev Containers, the Container Tools explorer (`containers:`), and other virtual file systems.
 - **Exact values.** Only whitespace is changed. Numbers keep their original text (no rounding of 64-bit integers like `18446744073709551615`), and key order and duplicate keys are preserved.
+- **JSON Lines and logs.** In `.jsonl`, `.ndjson` and `.log` files with one JSON object per line, every record opens collapsed and reads like the original line; expanding it shows only the formatted JSON. Lines that are not JSON are shown as is.
 - **Fresh content.** The file is re-read when you switch back to the tab, or on demand with the refresh button.
 
 ## Usage
 
-1. Open a JSON file.
+1. Open a JSON, JSON Lines or log file.
 2. Click the tree icon in the editor title bar, or run **JSON: Toggle Pretty View** from the Command Palette.
-3. Fold sections with the gutter arrows, `Ctrl+K Ctrl+0` (fold all) and `Ctrl+K Ctrl+J` (unfold all); on macOS use `Cmd`.
+3. Fold sections with the gutter arrows, `Ctrl+K Ctrl+0` (fold all) and `Ctrl+K Ctrl+J` (unfold all); on macOS use `Cmd`. In JSON Lines view, `Ctrl+K Ctrl+1` collapses every record back to its line.
 4. Click the tree icon again to return to the raw file.
 
 ## Commands

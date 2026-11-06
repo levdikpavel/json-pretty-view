@@ -6,7 +6,7 @@ const load = Module._load;
 Module._load = function (request, ...rest) {
   return request === 'vscode' ? {} : load.call(this, request, ...rest);
 };
-const { prettify } = require('../extension.js');
+const { prettify, render } = require('../extension.js');
 
 test('formats nested structures and keeps empty containers inline', () => {
   assert.strictEqual(
@@ -36,4 +36,30 @@ test('is idempotent', () => {
 
 test('rejects invalid JSON', () => {
   assert.throws(() => prettify('{"a":'), SyntaxError);
+});
+
+test('renders a whole JSON document without own folding ranges', () => {
+  assert.deepStrictEqual(render('{"a":1}'), { text: '{\n  "a": 1\n}\n', ranges: [], records: [], lines: false });
+});
+
+test('renders JSON lines as foldable pretty records with the rest of the original line', () => {
+  const view = render('{"a":1,"b":{"c":2}}\nplain text\r\n[1]\n{}\n{"broken":\n');
+  assert.strictEqual(
+    view.text,
+    ['{', '  "a": 1,', '  "b": {', '    "c": 2', '  }', '}', 'plain text', '[', '  1', ']', '{}', '{"broken":', ''].join('\n'),
+  );
+  assert.strictEqual(view.lines, true);
+  assert.deepStrictEqual(view.ranges, [
+    [0, 5],
+    [2, 3],
+    [7, 9],
+  ]);
+  assert.deepStrictEqual(view.records, [
+    { start: 0, rest: '"a":1,"b":{"c":2}}' },
+    { start: 7, rest: '1]' },
+  ]);
+});
+
+test('rejects text without any JSON', () => {
+  assert.throws(() => render('just\na log\n'), /No JSON found/);
 });
